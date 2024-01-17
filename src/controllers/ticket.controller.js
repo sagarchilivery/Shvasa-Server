@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Agent from "../models/agent.model.js";
 import LastIndex from "../models/last-index.model.js";
 import Ticket from "../models/ticket.model.js";
@@ -141,4 +142,39 @@ const getTicketsOfAgent = async (req, res) => {
     }
 };
 
-export { createTicket, getAllTickets, getTicketsOfAgent };
+const getTicketById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid ticket id",
+            });
+        }
+
+        const ticket = await Ticket.findById(id).populate({
+            path: "assignedTo",
+            select: "name",
+        });
+
+        if (!ticket) {
+            return res.status(400).json({
+                success: false,
+                message: "Ticket not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Ticket fetched successfully",
+            ticket,
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error?.message || "Something went wrong",
+        });
+    }
+};
+
+export { createTicket, getAllTickets, getTicketsOfAgent, getTicketById };

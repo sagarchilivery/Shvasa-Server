@@ -2,6 +2,7 @@ import express from "express";
 import {
     createTicket,
     getAllTickets,
+    getTicketById,
     getTicketsOfAgent,
 } from "../controllers/ticket.controller.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
@@ -16,5 +17,8 @@ ticketRoute.get("/", getAllTickets);
 
 // get all agent tickets
 ticketRoute.get("/agent", verifyToken, getTicketsOfAgent);
+
+// get ticket by ID
+ticketRoute.get("/:id", getTicketById);
 
 export default ticketRoute;
