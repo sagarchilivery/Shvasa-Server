@@ -1,5 +1,6 @@
 import express from "express";
 import {
+    changeStatusOfTicket,
     createTicket,
     getAllTickets,
     getTicketById,
@@ -20,5 +21,8 @@ ticketRoute.get("/agent", verifyToken, getTicketsOfAgent);
 
 // get ticket by ID
 ticketRoute.get("/:id", getTicketById);
+
+// get ticket by ID
+ticketRoute.patch("/:id", verifyToken, changeStatusOfTicket);
 
 export default ticketRoute;

@@ -178,4 +178,39 @@ const getTicketById = async (req, res) => {
     }
 };
 
-export { createTicket, getAllTickets, getTicketsOfAgent, getTicketById };
+const changeStatusOfTicket = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid ticket id",
+            });
+        }
+        const { status } = req.body;
+        const updatedTicket = await Ticket.findByIdAndUpdate(
+            id,
+            { status },
+            { new: true }
+        );
+
+        res.status(200).json({
+            success: true,
+            message: "Ticket status updated successfully",
+            ticket: updatedTicket,
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error?.message || "Something went wrong",
+        });
+    }
+};
+
+export {
+    createTicket,
+    getAllTickets,
+    getTicketsOfAgent,
+    getTicketById,
+    changeStatusOfTicket,
+};
