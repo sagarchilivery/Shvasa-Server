@@ -41,7 +41,7 @@ const createTicket = async (req, res) => {
             description,
             severity,
             type,
-            status: "Assigned",
+            status: "New",
             assignedTo: nextAgent._id,
         });
         await ticket.save();
