@@ -44,7 +44,11 @@ const createTicket = async (req, res) => {
         });
         await ticket.save();
 
-        res.status(200).json({ ticket });
+        res.status(200).json({
+            success: true,
+            ticket,
+            message: "Ticket created successfully",
+        });
     } catch (error) {
         res.status(400).json({
             success: false,
