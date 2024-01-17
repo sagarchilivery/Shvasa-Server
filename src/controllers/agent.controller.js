@@ -10,7 +10,7 @@ const agentRegister = async (req, res) => {
         if (error) {
             return res.status(400).json({
                 success: false,
-                error: error.details[0].message,
+                message: error.details[0].message,
             });
         }
 
@@ -45,7 +45,7 @@ const agentRegister = async (req, res) => {
     } catch (error) {
         res.status(400).json({
             success: false,
-            error: error?.message || "Something went wrong",
+            message: error?.message || "Something went wrong",
         });
     }
 };
