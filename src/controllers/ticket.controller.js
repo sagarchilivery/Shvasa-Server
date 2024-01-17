@@ -108,6 +108,7 @@ const getAllTickets = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "Tickets fetched successfully",
+            totalCount,
             tickets,
         });
     } catch (error) {
