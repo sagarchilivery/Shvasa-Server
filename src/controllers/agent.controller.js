@@ -76,7 +76,7 @@ const agentLogin = async (req, res) => {
         res.status(200).json({
             success: true,
             agent: agentData,
-            message: "Agent login successfull",
+            message: "Agent Login Successfull",
             accessToken,
         });
     } catch (error) {
@@ -87,4 +87,27 @@ const agentLogin = async (req, res) => {
     }
 };
 
-export { agentLogin, agentRegister };
+const agentLogout = async (req, res) => {
+    try {
+        const agentId = req._id;
+        const agentExist = await Agent.findOne({ _id: agentId });
+
+        if (!agentExist) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Agent not found" });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Agent Logout Successfull",
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            error: error?.message || "Something went wrong",
+        });
+    }
+};
+
+export { agentLogin, agentRegister, agentLogout };
