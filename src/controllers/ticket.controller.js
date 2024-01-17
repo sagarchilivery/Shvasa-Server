@@ -116,4 +116,28 @@ const getAllTickets = async (req, res) => {
     }
 };
 
-export { createTicket, getAllTickets };
+const getTicketsOfAgent = async (req, res) => {
+    try {
+        const agentId = req._id;
+        const agentTickets = await Ticket.find({ assignedTo: agentId });
+        if (agentTickets.length === 0) {
+            return res.status(200).json({
+                success: true,
+                message: "No tickets present",
+                tickets: [],
+            });
+        }
+        res.status(200).json({
+            success: true,
+            message: "Tickets fetched successfully",
+            tickets: agentTickets,
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error?.message || "Something went wrong",
+        });
+    }
+};
+
+export { createTicket, getAllTickets, getTicketsOfAgent };
